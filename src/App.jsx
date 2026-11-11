@@ -17,9 +17,18 @@ function PriceChart({ data }) {
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="chart">
-      <text x={P} y={P - 12} className="axis">{fmt(max)}</text>
-      <text x={P} y={H - P + 24} className="axis">{fmt(min)}</text>
-      <polyline points={points} fill="none" stroke="#2563eb" strokeWidth="2.5" />
+      <text x={P} y={P - 12} className="axis">
+        {fmt(max)}
+      </text>
+      <text x={P} y={H - P + 24} className="axis">
+        {fmt(min)}
+      </text>
+      <polyline
+        points={points}
+        fill="none"
+        stroke="#2563eb"
+        strokeWidth="2.5"
+      />
       {data.map((d, i) => (
         <circle key={d.date} cx={x(i)} cy={y(d.close)} r="3.5" fill="#2563eb">
           <title>{`${d.date} 종가 ${fmt(d.close)}원`}</title>
@@ -35,7 +44,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   const fetchStock = () =>
-    fetch("/samsung")
+    fetch("http://32.236.255.215/samsung")
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -117,7 +126,9 @@ function App() {
               <td>{fmt(d.open)}</td>
               <td className="up">{fmt(d.high)}</td>
               <td className="down">{fmt(d.low)}</td>
-              <td><b>{fmt(d.close)}</b></td>
+              <td>
+                <b>{fmt(d.close)}</b>
+              </td>
               <td>{fmt(d.volume)}</td>
             </tr>
           ))}
